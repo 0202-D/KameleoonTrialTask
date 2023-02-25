@@ -16,6 +16,7 @@ import com.kameleoon.dmitriypetrov.kameleoontrialtask.service.vote.VoteService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -79,6 +80,7 @@ public class QuoteServiceImpl implements QuoteService {
     }
 
     @Override
+    @Transactional
     public void addVote(VotingRq votingRq, String reaction) {
         User user = userRepository.findById(votingRq.getUserId())
                 .orElseThrow(() -> new NotFoundException("user with this id not exists"));
