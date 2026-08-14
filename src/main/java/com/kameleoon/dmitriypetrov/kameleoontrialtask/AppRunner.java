@@ -7,27 +7,31 @@ import com.kameleoon.dmitriypetrov.kameleoontrialtask.entity.User;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
+
 @Component
 public class AppRunner implements CommandLineRunner {
     private final UserRepository userRepository;
     private final QuoteRepository quoteRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public AppRunner(UserRepository userRepository, QuoteRepository quoteRepository) {
+    public AppRunner(UserRepository userRepository, QuoteRepository quoteRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.quoteRepository = quoteRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     @Transactional
     public void run(String... args) {
         User u1 = User.builder().name("John").email("john@gmail.com")
-                .password("123").createDate(LocalDate.now()).build();
-         User u2 = User.builder().name("Dmitriy").email("dima@gmail.com")
-                .password("777").createDate(LocalDate.now()).build();
+                .password(passwordEncoder.encode("123")).createDate(LocalDate.now()).build();
+        User u2 = User.builder().name("Dmitriy").email("dima@gmail.com")
+                .password(passwordEncoder.encode("777")).createDate(LocalDate.now()).build();
         userRepository.save(u1);
         userRepository.save(u2);
         Quote q1 = Quote.builder().user(u1).content("hello")

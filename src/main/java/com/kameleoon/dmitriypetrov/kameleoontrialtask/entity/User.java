@@ -9,7 +9,11 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users", 
+       uniqueConstraints = {
+           @UniqueConstraint(columnNames = "name"),
+           @UniqueConstraint(columnNames = "email")
+       })
 @Data
 @Builder
 @NoArgsConstructor
@@ -18,18 +22,17 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private long id;
+    private Long id;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false, length = 50)
     private String name;
 
-    @Column(name = "email")
+    @Column(name = "email", nullable = false, length = 100)
     private String email;
 
-    @Column(name = "password")
+    @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "create_date")
+    @Column(name = "create_date", nullable = false)
     private LocalDate createDate;
-
 }

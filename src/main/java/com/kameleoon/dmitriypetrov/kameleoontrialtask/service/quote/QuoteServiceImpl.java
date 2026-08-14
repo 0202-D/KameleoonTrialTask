@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 @Service
@@ -38,39 +39,50 @@ public class QuoteServiceImpl implements QuoteService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Quote> getAllQuotes() {
         return quoteRepository.findAll();
     }
 
     @Override
+    @Transactional
     public void addQuote(AddQuoteRq addQuoteRq) {
         User user = userRepository.findById(addQuoteRq.getUserId())
                 .orElseThrow(() -> new NotFoundException("User with this id not exists"));
-        Quote quote = Quote.builder().user(user)
-                .content(addQuoteRq.getContent()).createDate(new Timestamp(System.currentTimeMillis())).build();
+        Quote quote = Quote.builder()
+                .user(user)
+                .content(addQuoteRq.getContent())
+                .createDate(new Timestamp(System.currentTimeMillis()))
+                .sumVote(0L)
+                .build();
         quoteRepository.save(quote);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Quote getRandomQuote() {
         Random random = new Random();
         List<Quote> quotes = quoteRepository.findAll();
+        if (quotes.isEmpty()) {
+            throw new NotFoundException("No quotes available");
+        }
         long amountQuotes = quotes.size();
         long randomDigit = random.nextLong(1, amountQuotes + 1);
         return quoteRepository.getRandomQuote(randomDigit);
     }
 
     @Override
+    @Transactional
     public void updateQuote(UpdateQuoteRq updateQuoteRq, long id) {
         Quote quote = quoteRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Not found quote with this id"));
         quote.setContent(updateQuoteRq.getContent());
         quote.setCreateDate(new Timestamp(System.currentTimeMillis()));
         quoteRepository.save(quote);
-
     }
 
     @Override
+    @Transactional
     public void deleteQuote(long id) {
         quoteRepository.deleteById(id);
     }
@@ -82,33 +94,45 @@ public class QuoteServiceImpl implements QuoteService {
                 .orElseThrow(() -> new NotFoundException("user with this id not exists"));
         Quote quote = quoteRepository.findById(votingRq.getQuoteId())
                 .orElseThrow(() -> new NotFoundException("quote with this id not exists"));
-        Reaction reactionType = Reaction.from(reaction)
-                .orElseThrow(() -> new IncorrectDataException("Unknown reaction: " + reaction));
-        Vote vote = Vote.builder()
-                .reaction(reactionType)
-                .quote(quote)
-                .user(user)
-                .build();
-        voteRepository.save(vote);
+        
+        Optional<Vote> existingVote = voteRepository.findByUserIdAndQuoteId(user.getId(), quote.getId());
+        if (existingVote.isPresent()) {
+            Vote vote = existingVote.get();
+            vote.setReaction(Reaction.from(reaction)
+                    .orElseThrow(() -> new IncorrectDataException("Unknown reaction: " + reaction)));
+            voteRepository.save(vote);
+        } else {
+            Reaction reactionType = Reaction.from(reaction)
+                    .orElseThrow(() -> new IncorrectDataException("Unknown reaction: " + reaction));
+            Vote vote = Vote.builder()
+                    .reaction(reactionType)
+                    .quote(quote)
+                    .user(user)
+                    .build();
+            voteRepository.save(vote);
+        }
+        
         long result = voteService.setScore(quote.getId());
         quote.setSumVote(result);
         quoteRepository.save(quote);
-
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Quote> getOrderedByDesk() {
         Pageable topTen = PageRequest.of(0, 10);
         return quoteRepository.getOrderByDesk(topTen);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Quote> getOrderedByAsc() {
         Pageable topTen = PageRequest.of(0, 10);
         return quoteRepository.getOrderByAsc(topTen);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Quote getQuoteById(long id) {
         return quoteRepository.findById(id)
                 .orElseThrow(()->new NotFoundException("quote with this id not exists"));
