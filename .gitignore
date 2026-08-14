@@ -4,11 +4,17 @@
 *.o
 *.obj
 *.out
+build/
 target/
 
 # Dependencies
-.m2/
 .gradle/
+.mypy_cache/
+.pytest_cache/
+__pycache__/
+node_modules/
+venv/
+.venv/
 
 # Logs and temp files
 *.log
@@ -24,7 +30,12 @@ target/
 .vscode/
 .idea/
 
-# OS
+# Coverage reports
+coverage/
+htmlcov/
+.coverage
+
+# System files
 .DS_Store
 Thumbs.db
 ```

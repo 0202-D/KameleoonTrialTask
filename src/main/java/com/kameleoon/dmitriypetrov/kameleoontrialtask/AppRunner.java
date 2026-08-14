@@ -35,27 +35,27 @@ public class AppRunner implements CommandLineRunner {
         userRepository.save(u1);
         userRepository.save(u2);
         Quote q1 = Quote.builder().user(u1).content("hello")
-                .createDate(new Timestamp(System.currentTimeMillis())).build();
+                .createDate(new Timestamp(System.currentTimeMillis())).sumVote(0L).build();
         Quote q2 = Quote.builder().user(u1).content("bye")
-                .createDate(new Timestamp(System.currentTimeMillis())).build();
+                .createDate(new Timestamp(System.currentTimeMillis())).sumVote(0L).build();
         Quote q3 = Quote.builder().user(u2).content("Zenit - champion !")
-                .createDate(new Timestamp(System.currentTimeMillis())).build();
+                .createDate(new Timestamp(System.currentTimeMillis())).sumVote(0L).build();
         Quote q4 = Quote.builder().user(u2).content("Hi !")
-                .createDate(new Timestamp(System.currentTimeMillis())).build();
+                .createDate(new Timestamp(System.currentTimeMillis())).sumVote(0L).build();
         Quote q5 = Quote.builder().user(u2).content("I love Java !")
-                .createDate(new Timestamp(System.currentTimeMillis())).build();
+                .createDate(new Timestamp(System.currentTimeMillis())).sumVote(0L).build();
         Quote q6 = Quote.builder().user(u2).content("Docker the best !")
-                .createDate(new Timestamp(System.currentTimeMillis())).build();
+                .createDate(new Timestamp(System.currentTimeMillis())).sumVote(0L).build();
         Quote q7 = Quote.builder().user(u2).content("I like this job !")
-                .createDate(new Timestamp(System.currentTimeMillis())).build();
+                .createDate(new Timestamp(System.currentTimeMillis())).sumVote(0L).build();
         Quote q8 = Quote.builder().user(u2).content("Improve")
-                .createDate(new Timestamp(System.currentTimeMillis())).build();
+                .createDate(new Timestamp(System.currentTimeMillis())).sumVote(0L).build();
         Quote q9 = Quote.builder().user(u2).content("Spring - the best framework!")
-                .createDate(new Timestamp(System.currentTimeMillis())).build();
+                .createDate(new Timestamp(System.currentTimeMillis())).sumVote(0L).build();
         Quote q10 = Quote.builder().user(u2).content("Use Jpa !")
-                .createDate(new Timestamp(System.currentTimeMillis())).build();
+                .createDate(new Timestamp(System.currentTimeMillis())).sumVote(0L).build();
         Quote q11 = Quote.builder().user(u2).content("GoodBye !")
-                .createDate(new Timestamp(System.currentTimeMillis())).build();
+                .createDate(new Timestamp(System.currentTimeMillis())).sumVote(0L).build();
         quoteRepository.save(q1);
         quoteRepository.save(q2);
         quoteRepository.save(q3);
