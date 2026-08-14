@@ -22,13 +22,12 @@ public class Quote {
     @Column(name = "content")
     private String content;
 
-    @Column(name = "createDate")
-    private Timestamp createData;
+    @Column(name = "create_date")
+    private Timestamp createDate;
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id")
     private User user;
-
 
     @Column(name = "sum_vote")
     long sumVote;

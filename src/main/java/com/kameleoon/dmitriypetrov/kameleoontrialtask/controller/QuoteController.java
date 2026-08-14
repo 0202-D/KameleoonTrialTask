@@ -9,16 +9,16 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api")
 public class QuoteController {
-    final
-    QuoteService quoteService;
+    private final QuoteService quoteService;
 
     public QuoteController(QuoteService quoteService) {
         this.quoteService = quoteService;
     }
 
     @GetMapping("/quotes")
-    public List<Quote>getAllQuotes(){
+    public List<Quote> getAllQuotes(){
         return quoteService.getAllQuotes();
     }
 
@@ -33,11 +33,12 @@ public class QuoteController {
     }
 
     @PutMapping("/quote/{id}")
-    public void updateQuote(@RequestBody UpdateQuoteRq updateQuoteRq, @PathVariable("id")long id) {
-        quoteService.updateQuote(updateQuoteRq,id);
+    public void updateQuote(@RequestBody UpdateQuoteRq updateQuoteRq, @PathVariable("id") long id) {
+        quoteService.updateQuote(updateQuoteRq, id);
     }
+    
     @DeleteMapping("/quote/{id}")
-    public void deleteQuote(@PathVariable("id")long id){
+    public void deleteQuote(@PathVariable("id") long id){
         quoteService.deleteQuote(id);
     }
 
@@ -47,11 +48,11 @@ public class QuoteController {
     }
 
     @GetMapping("/quoteasc")
-    public List<Quote>getOrderedByAsc(){
+    public List<Quote> getOrderedByAsc(){
         return quoteService.getOrderedByAsc();
     }
 
-    @GetMapping("/qoute/{id}")
+    @GetMapping("/quote/{id}")
     public Quote getQuoteById(@PathVariable long id){
         return quoteService.getQuoteById(id);
     }

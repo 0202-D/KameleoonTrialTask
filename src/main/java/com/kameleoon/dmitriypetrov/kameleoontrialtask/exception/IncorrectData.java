@@ -2,12 +2,10 @@ package com.kameleoon.dmitriypetrov.kameleoontrialtask.exception;
 
 import lombok.*;
 
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @Getter
-    @Setter
-    public class IncorrectData {
-        private String info;
-    }
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class IncorrectData {
+    private String info;
+}
 

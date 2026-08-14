@@ -1,11 +1,35 @@
-
+```
+# Java/Maven specific
 target/
-!.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
+*.class
+*.jar
+*.war
+*.ear
 
-.idea
-*.iws
+# Dependencies
+lib/
+libs/
+
+# IDE
+.idea/
 *.iml
 *.ipr
-*.class
+*.iws
+
+# Logs
+*.log
+
+# Environment
+.env
+.env.local
+*.env.*
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+*~
+```

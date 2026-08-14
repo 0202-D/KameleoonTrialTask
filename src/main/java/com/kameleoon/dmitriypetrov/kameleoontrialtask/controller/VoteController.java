@@ -5,12 +5,13 @@ import com.kameleoon.dmitriypetrov.kameleoontrialtask.service.quote.QuoteService
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/api")
 public class VoteController {
-    final
-    QuoteService quoteService;
+    private final QuoteService quoteService;
 
     public VoteController(QuoteService quoteService) {
         this.quoteService = quoteService;
@@ -18,6 +19,6 @@ public class VoteController {
 
     @PostMapping("/vote/{reaction}")
     public void voting(@RequestBody VotingRq votingRq, @PathVariable("reaction") String reaction){
-        quoteService.addVote(votingRq,reaction);
+        quoteService.addVote(votingRq, reaction);
     }
 }

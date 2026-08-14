@@ -24,14 +24,10 @@ import java.util.Random;
 
 @Service
 public class QuoteServiceImpl implements QuoteService {
-    final
-    QuoteRepository quoteRepository;
-    final
-    UserRepository userRepository;
-    final
-    VoteRepository voteRepository;
-    final
-    VoteService voteService;
+    private final QuoteRepository quoteRepository;
+    private final UserRepository userRepository;
+    private final VoteRepository voteRepository;
+    private final VoteService voteService;
 
     public QuoteServiceImpl(QuoteRepository quoteRepository, UserRepository userRepository,
                             VoteRepository voteRepository, VoteService voteService) {
@@ -51,7 +47,7 @@ public class QuoteServiceImpl implements QuoteService {
         User user = userRepository.findById(addQuoteRq.getUserId())
                 .orElseThrow(() -> new NotFoundException("User with this id not exists"));
         Quote quote = Quote.builder().user(user)
-                .content(addQuoteRq.getContent()).createData(new Timestamp(System.currentTimeMillis())).build();
+                .content(addQuoteRq.getContent()).createDate(new Timestamp(System.currentTimeMillis())).build();
         quoteRepository.save(quote);
     }
 
@@ -69,7 +65,7 @@ public class QuoteServiceImpl implements QuoteService {
         Quote quote = quoteRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Not found quote with this id"));
         quote.setContent(updateQuoteRq.getContent());
-        quote.setCreateData(new Timestamp(System.currentTimeMillis()));
+        quote.setCreateDate(new Timestamp(System.currentTimeMillis()));
         quoteRepository.save(quote);
 
     }

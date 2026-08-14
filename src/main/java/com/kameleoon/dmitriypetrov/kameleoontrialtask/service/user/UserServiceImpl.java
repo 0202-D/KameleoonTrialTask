@@ -7,7 +7,7 @@ import com.kameleoon.dmitriypetrov.kameleoontrialtask.entity.User;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     public UserServiceImpl(UserRepository userRepository) {
@@ -16,14 +16,12 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User getUserByLogin(LoginRq loginRq) {
-        User user =  userRepository.findByName(loginRq.getName());
-        if(user==null){return null;}
-        else if(!user.getPassword().equals(loginRq.getPassword())){
+        User user = userRepository.findByName(loginRq.getName());
+        if (user == null) {
+            return null;
+        } else if (!user.getPassword().equals(loginRq.getPassword())) {
             throw new IncorrectDataException("wrong password");
         }
         return user;
-
     }
-
-
 }

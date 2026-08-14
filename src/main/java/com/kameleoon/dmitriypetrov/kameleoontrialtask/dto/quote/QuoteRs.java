@@ -8,12 +8,11 @@ import java.sql.Timestamp;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
 @Builder
 public class QuoteRs {
     private long id;
     private String content;
-    private Timestamp createData;
+    private Timestamp createDate;
     private User author;
     private Long votes;
 
