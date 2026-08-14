@@ -9,7 +9,10 @@ import lombok.NoArgsConstructor;
 
 
 @Entity
-@Table(name = "votes")
+@Table(name = "votes", 
+       uniqueConstraints = {
+           @UniqueConstraint(columnNames = {"user_id", "quote_id"})
+       })
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,16 +21,16 @@ public class Vote {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne
-    @JoinColumn(name = "user_id")
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
-    @ManyToOne
-    @JoinColumn(name = "quote_id")
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "quote_id", nullable = false)
     private Quote quote;
 
-    @Column(name = "reaction")
+    @Column(name = "reaction", nullable = false)
     @Enumerated(EnumType.STRING)
     private Reaction reaction;
-
-
 }

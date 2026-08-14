@@ -17,20 +17,20 @@ import java.sql.Timestamp;
 public class Quote {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
-    @Column(name = "content")
+    @Column(name = "content", nullable = false, length = 1000)
     private String content;
 
-    @Column(name = "create_date")
+    @Column(name = "create_date", nullable = false)
     private Timestamp createDate;
 
     @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Column(name = "sum_vote")
-    long sumVote;
+    @Column(name = "sum_vote", nullable = false)
+    Long sumVote = 0L;
 }
 
 
