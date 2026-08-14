@@ -10,4 +10,5 @@ import java.util.Optional;
 @Repository
 public interface VoteRepository extends JpaRepository<Vote,Long> {
     Optional<List<Vote>> findAllByQuoteId(long id);
+    Optional<Vote> findByUserIdAndQuoteId(Long userId, Long quoteId);
 }
